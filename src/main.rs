@@ -91,7 +91,7 @@ impl TelegramNotifier {
         let payload = TelegramPayload {
             chat_id: self.chat_id.clone(),
             text: message.to_string(),
-            parse_mode: "MarkdownV2".to_string(),
+            parse_mode: "HTML".to_string(),
         };
 
         let response = self.client.post(url).json(&payload).send().await;
@@ -113,10 +113,10 @@ async fn notification_worker(mut rx: Receiver<GameEvent>, notifier: TelegramNoti
     while let Ok(event) = rx.recv().await {
         let message = match event {
             GameEvent::PlayerJoined(name) => {
-                format!("*{}* joined the game", name)
+                format!("<b>{}</b> joined the game", name)
             }
             GameEvent::PlayerLeft(name) => {
-                format!("*{}* left the game", name)
+                format!("<b>{}</b> left the game", name)
             }
             GameEvent::SessionReset => "Server session restarted".to_string(),
         };
