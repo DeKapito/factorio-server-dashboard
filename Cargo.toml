@@ -13,3 +13,8 @@ tokio = { version = "1.49.0", features = [
     "rt-multi-thread",
     "signal",
 ] }
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
